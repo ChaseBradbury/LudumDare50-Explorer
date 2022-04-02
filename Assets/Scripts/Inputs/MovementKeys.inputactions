@@ -1,0 +1,54 @@
+{
+    "name": "MovementKeys",
+    "maps": [
+        {
+            "name": "MovementKeys",
+            "id": "fc0c69bf-4813-410b-a900-37e6ffa1ce82",
+            "actions": [
+                {
+                    "name": "East",
+                    "type": "Button",
+                    "id": "d2bb4269-cbe4-478f-94d8-d92a790d31ea",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Southeast",
+                    "type": "Button",
+                    "id": "0b0ce1b0-4077-4569-bf3b-c1b611ae0d89",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2d63fc2a-eccb-47b3-b08e-45f177853b7b",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "East",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68a70950-4648-41d3-92a8-a40e97deb464",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Southeast",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
