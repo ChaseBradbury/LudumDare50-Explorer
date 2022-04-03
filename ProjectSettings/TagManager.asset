@@ -50,3 +50,6 @@ TagManager:
   - name: Fog
     uniqueID: 2558368303
     locked: 0
+  - name: Reavealed Objects
+    uniqueID: 1044049599
+    locked: 0

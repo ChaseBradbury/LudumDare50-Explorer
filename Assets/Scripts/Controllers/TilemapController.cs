@@ -109,6 +109,16 @@ public class TilemapController : MonoBehaviour
         map.SetTile(tilemapPos, tile);
     }
 
+    public TileBase GetTile(Vector3Int tilemapPos)
+    {
+        return map.GetTile(tilemapPos);
+    }
+
+    public bool HasTile(Vector3Int tilemapPos)
+    {
+        return map.GetTile(tilemapPos) != null;
+    }
+
     // Returns an int between 0 and 5, 0 being positive along the x axis, and moving counterclockwise in 60 degree intervals
     public Vector2 MoveByAngle(Vector2 worldStart, Vector2 worldEnd)
     {
