@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     private GameObject winScreen;
     [SerializeField]
     private Text visitedCounter;
+    [SerializeField]
+    private Image goalImage;
 
     [Header("Tilemaps")]
 
@@ -39,6 +41,12 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private Tile visitedFogTile;
+
+    [SerializeField]
+    private ObstaclePlaceholderTile[] goalTileList;
+
+    private ObstaclePlaceholderTile goalTile;
+
 
     MovementInput movementInput;
 
@@ -72,6 +80,10 @@ public class PlayerController : MonoBehaviour
         movementInput.Keys.Northwest.performed += _ => InputDirection(Direction.Northwest);
 
         moveToPosition = transform.position;
+
+        int rand = Random.Range(0, goalTileList.Length);
+        goalTile = goalTileList[rand];
+        goalImage.sprite = goalTile.revealedTile.sprite;
     }
 
     void OnEnable()
@@ -134,7 +146,7 @@ public class PlayerController : MonoBehaviour
             tile = obstacleMap.GetTile(neighbor) as ObstaclePlaceholderTile;
             if (tile != null)
             {
-                if (tile.isGoal)
+                if (tile == goalTile)
                 {
                     FinishGame();
                 }
@@ -161,6 +173,7 @@ public class PlayerController : MonoBehaviour
     void FinishGame()
     {
         winScreen.SetActive(true);
+        winScreen.GetComponent<WinScreenUI>().SetScore(visitedTiles.Count);
         movementInput.Disable();
     }
 }

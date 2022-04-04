@@ -29,7 +29,11 @@ public class TerrainTile : Tile
 
     public ObstaclePlaceholderTile ObstacleTile()
     {
-        int rand = Random.Range(0, obstacles.Length);
-        return obstacles[rand];
+        if (obstacles.Length > 0)
+        {
+            int rand = Random.Range(0, obstacles.Length);
+            return obstacles[rand];
+        }
+        return null;
     }
 }

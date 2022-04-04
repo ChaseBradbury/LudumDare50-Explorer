@@ -9,6 +9,8 @@ public class WinScreenUI : MonoBehaviour
     
     [SerializeField]
     private Button playAgainButton;
+    [SerializeField]
+    private Text scoreText;
 
     void OnEnable()
     {
@@ -21,5 +23,10 @@ public class WinScreenUI : MonoBehaviour
     void OnDisable()
     {
         playAgainButton.onClick.RemoveAllListeners();
+    }
+
+    public void SetScore(int score)
+    {
+        scoreText.text = score.ToString();
     }
 }

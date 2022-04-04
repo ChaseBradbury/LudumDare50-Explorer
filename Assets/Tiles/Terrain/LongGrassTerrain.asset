@@ -38,4 +38,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f9b8b2369739c8245b2a0c6893552894, type: 2}
   goal: {fileID: 11400000, guid: 3bcf13f6c82b30042a8f2873b9f75484, type: 2}
   neighborTerrain:
-  - {fileID: 11400000, guid: 2e8c640004b1e3044985bc2baff21132, type: 2}
+  - {fileID: 11400000, guid: a64b8a0c6257a5e4987e433593eb3fea, type: 2}

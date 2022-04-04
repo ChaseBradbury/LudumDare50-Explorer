@@ -66,13 +66,13 @@ public class TilemapGenManager : MonoBehaviour
             TerrainTile newTile = CalculateTile(position, tile);
             terrainMap.SetTile(position, newTile);
             
-            int rand = Random.Range(0, 20);
+            int rand = Random.Range(0, 10);
             if (rand == 0)
             {
                 ObstaclePlaceholderTile obstacleTile = newTile.ObstacleTile();
                 obstacleMap.SetTile(position, obstacleTile);
             }
-            rand = Random.Range(0, 100);
+            rand = Random.Range(0, 10);
             if (rand == 0)
             {
                 ObstaclePlaceholderTile obstacleTile = newTile.goal;
