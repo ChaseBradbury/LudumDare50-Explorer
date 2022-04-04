@@ -9,6 +9,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     Camera mainCamera;
 
+    [SerializeField]
+    private float moveTime;
+
+    [SerializeField]
+    private float movementTolerance;
+
     [Header("UI")]
     [SerializeField]
     private GameObject winScreen;
@@ -37,6 +43,8 @@ public class PlayerController : MonoBehaviour
     MovementInput movementInput;
 
     private int step = 0;
+    private Vector2 moveToPosition;
+    private float movementTimeElapsed = 0;
     private Dictionary<Vector3Int, int> visitedTiles = new Dictionary<Vector3Int, int>();
 
     void Awake()
@@ -62,6 +70,8 @@ public class PlayerController : MonoBehaviour
         movementInput.Keys.Southwest.performed += _ => InputDirection(Direction.Southwest);
         movementInput.Keys.West.performed += _ => InputDirection(Direction.West);
         movementInput.Keys.Northwest.performed += _ => InputDirection(Direction.Northwest);
+
+        moveToPosition = transform.position;
     }
 
     void OnEnable()
@@ -72,14 +82,23 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetFog(null);
+        SetFog(moveToPosition, null);
         RevealObstacles();
         visitedCounter.text = visitedTiles.Count.ToString();
+
+        if (Vector2.Distance(moveToPosition, transform.position) > movementTolerance)
+        {
+            transform.position = Vector2.Lerp(transform.position, moveToPosition, movementTimeElapsed / moveTime);
+            movementTimeElapsed += Time.deltaTime;
+        }
+        else
+        {
+            movementTimeElapsed = 0;
+        }
     }
 
     void BeginClick()
     {
-        SetFog(visitedFogTile);
         Vector2 clickPosition = mainCamera.ScreenToWorldPoint(movementInput.Click.Position.ReadValue<Vector2>());
         MoveTo(terrainMap.MoveByAngle(transform.position, clickPosition));
     }
@@ -92,7 +111,6 @@ public class PlayerController : MonoBehaviour
 
     void InputDirection(Direction direction)
     {
-        SetFog(visitedFogTile);
         MoveTo(terrainMap.MoveDirectional(transform.position, direction));
     }
 
@@ -100,7 +118,9 @@ public class PlayerController : MonoBehaviour
     {
         if (!obstacleRevealMap.HasTile(obstacleMap.GetCellPos(newPosition)))
         {
-            transform.position = newPosition;
+            TilemapGenManager.Instance.GenerateTerrain(newPosition);
+            SetFog(transform.position, visitedFogTile);
+            moveToPosition = newPosition;
         }
     }
 
@@ -125,9 +145,9 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void SetFog(Tile tile)
+    void SetFog(Vector2 newPosition, Tile tile)
     {
-        Vector3Int currentCell = fogMap.GetCellPos(transform.position);
+        Vector3Int currentCell = fogMap.GetCellPos(newPosition);
         visitedTiles[currentCell] = step;
         fogMap.SetTile(currentCell, tile);
         List<Vector3Int> neighbors = fogMap.GetAllNeighbors(currentCell);

@@ -22,8 +22,7 @@ public class TilemapController : MonoBehaviour
 
     private Dictionary<Direction, DirectionInfo> directionDict = new Dictionary<Direction, DirectionInfo>();
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         map = GetComponent<Tilemap>();
 
@@ -37,10 +36,21 @@ public class TilemapController : MonoBehaviour
         directionDict[Direction.Northwest] = new DirectionInfo(new Vector3Int(-1, 1, 0), true);
     }
 
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void OnDestroy()
+    {
+        map = null;
     }
 
     // Converts a cell to cube space
@@ -99,7 +109,10 @@ public class TilemapController : MonoBehaviour
         List<Vector3Int> neighbors = new List<Vector3Int>();
         foreach (Direction direction in directionDict.Keys)
         {
-            neighbors.Add(GetCellByDirection(tilemapPos, direction));
+            if (direction != Direction.North && direction != Direction.South)
+            {
+                neighbors.Add(GetCellByDirection(tilemapPos, direction));
+            }
         }
         return neighbors;
     }
