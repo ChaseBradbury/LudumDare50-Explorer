@@ -6,27 +6,25 @@ using UnityEngine.UI;
 
 public class WinScreenUI : MonoBehaviour
 {
-    
-    [SerializeField]
-    private Button playAgainButton;
+
     [SerializeField]
     private Text scoreText;
 
-    void OnEnable()
-    {
-        playAgainButton.onClick.AddListener(() =>
-        {
-            SceneManager.LoadScene("Game");
-        });
-    }
-
-    void OnDisable()
-    {
-        playAgainButton.onClick.RemoveAllListeners();
-    }
+    [SerializeField]
+    private Text scoreMessage;
 
     public void SetScore(int score)
     {
         scoreText.text = score.ToString();
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("Game");
+    }
+
+    public void MakeHighscore()
+    {
+        scoreMessage.text = "New Highscore!";
     }
 }

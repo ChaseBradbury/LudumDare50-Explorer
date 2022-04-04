@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject winScreen;
     [SerializeField]
+    private GameObject menuScreen;
+    [SerializeField]
     private Text visitedCounter;
     [SerializeField]
     private Image goalImage;
@@ -111,14 +113,12 @@ public class PlayerController : MonoBehaviour
 
     void BeginClick()
     {
-        Vector2 clickPosition = mainCamera.ScreenToWorldPoint(movementInput.Click.Position.ReadValue<Vector2>());
-        MoveTo(terrainMap.MoveByAngle(transform.position, clickPosition));
     }
 
     void EndClick()
     {
-        // dragStartPosition = mainCamera.ScreenToWorldPoint(dragStartPosition);
-        // Show the drag selection sprite
+        Vector2 clickPosition = mainCamera.ScreenToWorldPoint(movementInput.Click.Position.ReadValue<Vector2>());
+        MoveTo(terrainMap.MoveByAngle(transform.position, clickPosition));
     }
 
     void InputDirection(Direction direction)
@@ -172,8 +172,29 @@ public class PlayerController : MonoBehaviour
 
     void FinishGame()
     {
+        movementInput.Disable();
         winScreen.SetActive(true);
         winScreen.GetComponent<WinScreenUI>().SetScore(visitedTiles.Count);
+
+        int highscore = PlayerPrefs.GetInt("Highscore", 0);
+        if (highscore < visitedTiles.Count)
+        {
+            PlayerPrefs.SetInt("Highscore", visitedTiles.Count);
+            winScreen.GetComponent<WinScreenUI>().MakeHighscore();
+        }
+    }
+
+    public void Pause()
+    {
         movementInput.Disable();
+        menuScreen.SetActive(true);
+        int highscore = PlayerPrefs.GetInt("Highscore", 0);
+        menuScreen.GetComponent<WinScreenUI>().SetScore(highscore);
+    }
+
+    public void Resume()
+    {
+        menuScreen.SetActive(false);
+        movementInput.Enable();
     }
 }
